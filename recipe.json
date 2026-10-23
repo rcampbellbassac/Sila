@@ -1,0 +1,28 @@
+{
+ "name": "Sila",
+ "slug": "Sila",
+ "native": "ສິລາ",
+ "version": "0.100",
+ "cat": "traditional",
+ "title": "Carved stone",
+ "insp": "temple inscriptions, Moul",
+ "bases": {
+  "lao": "lao-serif",
+  "thai": "thai-serif",
+  "khmer": "khmer-serif",
+  "latin": "latin"
+ },
+ "recipe": [
+  {
+   "op": "nib",
+   "shape": "round",
+   "w": 14
+  },
+  {
+   "op": "inline",
+   "inset": 15,
+   "line": 7
+  }
+ ],
+ "wght": 900
+}
