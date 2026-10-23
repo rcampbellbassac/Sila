@@ -32,6 +32,7 @@ BASES = {
     "khmer": REF / "google-base/notosanskhmer/NotoSansKhmer[wdth,wght].ttf",
     "khmer-serif": REF / "google-base/notoserifkhmer/NotoSerifKhmer[wdth,wght].ttf",
     "latin": REF / "google-base/notosans/NotoSans[wdth,wght].ttf",
+    "latin-serif": REF / "google-base/notoserif/NotoSerif[wdth,wght].ttf",
     "math": REF / "google-base/notosansmath/NotoSansMath-Regular.ttf",
     "symbols2": REF / "google-base/notosanssymbols2/NotoSansSymbols2-Regular.ttf",
 }
@@ -185,8 +186,8 @@ def build_part(script: str, spec: dict, text: str | None = None) -> TTFont:
             polys, info = pen.apply_recipe_stacked(polys, recipe, seed=f"{spec['slug']}/{name}")
         else:
             polys, info = pen.apply_recipe(polys, recipe, seed=f"{spec['slug']}/{name}")
-        if not polys:  # an effect (e.g. inline) ate thin ink such as the dotted circle: keep the nib-only shape
-            nib_only = [op for op in recipe if op["op"] in ("offset", "nib")] or [{"op": "offset", "d": 0}]
+        if not polys:  # pre-thinning or an effect ate thin ink such as the dotted circle: keep the nib-only shape
+            nib_only = [op for op in recipe if op["op"] == "nib"] or [{"op": "offset", "d": 0}]
             polys, info = pen.apply_recipe(pen.from_ufo_points(contours), nib_only, seed=f"{spec['slug']}/{name}")
         dx = 0.0
         if adv > 0:
