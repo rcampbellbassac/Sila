@@ -185,6 +185,9 @@ def build_part(script: str, spec: dict, text: str | None = None) -> TTFont:
             polys, info = pen.apply_recipe_stacked(polys, recipe, seed=f"{spec['slug']}/{name}")
         else:
             polys, info = pen.apply_recipe(polys, recipe, seed=f"{spec['slug']}/{name}")
+        if not polys:  # an effect (e.g. inline) ate thin ink such as the dotted circle: keep the nib-only shape
+            nib_only = [op for op in recipe if op["op"] in ("offset", "nib")] or [{"op": "offset", "d": 0}]
+            polys, info = pen.apply_recipe(pen.from_ufo_points(contours), nib_only, seed=f"{spec['slug']}/{name}")
         dx = 0.0
         if adv > 0:
             dx = info["grow_left"]
